@@ -16,7 +16,8 @@ manifest:
 
     - name: zmk-dongle-display
       remote: sukumar
-      revision: project/universal-dongle-oled-status
+      # Pin the shared BASE-view fix so this build is reproducible.
+      revision: 28b38af9bd60812f1dff3c5f89b7f69712d46a81
 
   self:
     path: config
