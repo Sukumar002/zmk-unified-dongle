@@ -1,0 +1,15 @@
+#include "layout_shift.dtsi"
+
+/ {
+    behaviors {
+        original_key_press: original_key_press {
+            compatible = "zmk,behavior-key-press";
+            #binding-cells = <1>;
+        };
+
+        kp: key_press {
+            compatible = "zmk,behavior-layout-shift-key-press";
+            #binding-cells = <1>;
+        };
+    };
+};

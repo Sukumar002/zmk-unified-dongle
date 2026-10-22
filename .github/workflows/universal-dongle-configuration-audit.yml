@@ -1,0 +1,39 @@
+name: Universal Dongle Configuration Audit
+
+on:
+  push:
+    branches:
+      - project/universal-dongle-isolated
+    paths:
+      - "build-universal-dongle-routing-smoke.yaml"
+      - "boards/shields/universal_dongle/**"
+      - "config/west.yml"
+      - "scripts/validate_universal_dongle_config.py"
+      - ".github/workflows/universal-dongle-configuration-audit.yml"
+  pull_request:
+    paths:
+      - "build-universal-dongle-routing-smoke.yaml"
+      - "boards/shields/universal_dongle/**"
+      - "config/west.yml"
+      - "scripts/validate_universal_dongle_config.py"
+      - ".github/workflows/universal-dongle-configuration-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-audit:
+    name: Validate five-image configuration and routing safeguards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout isolated keyboard configuration
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Fetch integration source branch
+        run: git clone --depth 1 --branch project/universal-dongle-oled-status https://github.com/Sukumar002/zmk.git zmk-source
+      - name: Run configuration and source audit
+        run: python scripts/validate_universal_dongle_config.py

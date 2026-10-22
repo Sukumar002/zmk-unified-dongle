@@ -1,0 +1,5 @@
+description: Persistent BASE display view toggle
+
+compatible: "zmk,behavior-base-view-toggle"
+
+include: zero_param.yaml

@@ -1,0 +1,21 @@
+config LAYOUT_SHIFT
+    bool "Layout Shift"
+    default y
+
+if LAYOUT_SHIFT
+
+config LAYOUT_SHIFT_MAX_PRESSED_KEYS
+    int "Maximum tracked layout shift key presses"
+    default 16
+    range 1 255
+
+config LAYOUT_SHIFT_DEBUG
+    bool "Layout Shift debug logging"
+    depends on LOG
+
+config LAYOUT_SHIFT_PERSISTENT_STATE
+    bool "Layout Shift Persistent State"
+    default y
+    select SETTINGS
+
+endif

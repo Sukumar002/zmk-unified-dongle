@@ -1,0 +1,26 @@
+name: "Universal Dongle Five-Firmware + Two-Reset Hardware-Test Candidate Build"
+
+on:
+  push:
+    branches:
+      - project/universal-dongle-isolated
+    paths:
+      - "build-universal-dongle-routing-smoke.yaml"
+      - ".github/workflows/universal-dongle-routing-smoke.yml"
+      - "config/west.yml"
+      - "boards/shields/universal_dongle/**"
+      - "boards/shields/hana/**"
+      - "boards/shields/chocofi/**"
+      - "boards/shields/common/**"
+  workflow_dispatch:
+
+concurrency:
+  group: universal-dongle-integration-\${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration-build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    with:
+      build_matrix_path: build-universal-dongle-routing-smoke.yaml
+      archive_name: universal-dongle-seven-image-with-settings-reset-candidate

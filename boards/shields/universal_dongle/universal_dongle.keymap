@@ -1,0 +1,268 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
+#include "../common/studio_features.dtsi"
+#include "../common/studio_runtime_layers.dtsi"
+
+#define BASE_H     0
+#define BASE_C     1
+#define NUM        2
+#define NAV        3
+#define SET        4
+#define MOUSE      5
+
+
+// Global GUI <-> Alt layout shift.
+// BASE is the former working MAC Base.
+// Layout shift OFF = macOS; layout shift ON = Windows.
+/ {
+    layout_shift_map_gui_alt: layout_shift_map_gui_alt {
+        compatible = "zmk,layout-shift-map";
+        mappings = <
+            LGUI  LALT  LAYOUT_SHIFT_OPTIONAL_ALL
+            LALT  LGUI  LAYOUT_SHIFT_OPTIONAL_ALL
+            RGUI  RALT  LAYOUT_SHIFT_OPTIONAL_ALL
+            RALT  RGUI  LAYOUT_SHIFT_OPTIONAL_ALL
+        >;
+    };
+};
+
+&tog_ls {
+    layout-maps = <&layout_shift_map_gui_alt>;
+};
+
+// Tune all Hana mod-tap keys for easier rolling/typing.
+// Keep the 200 ms tapping term, but avoid hold-preferred's aggressive modifier activation.
+&mt {
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+    hold-trigger-key-positions = <
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+    >;
+    runtime-editable;
+    runtime-default-active;
+    display-name = "Mod-Tap";
+};
+
+&lt {
+    hold-trigger-key-positions = <
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+    >;
+    runtime-editable;
+    runtime-default-active;
+    display-name = "Layer-Tap";
+};
+
+/ {
+    macros {
+        bt_select_profile: bt_select_profile {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings =
+                <&macro_param_1to2>,
+                <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+
+        bt_clear_profile: bt_clear_profile {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            wait-ms = <20>;
+            bindings =
+                <&macro_param_1to2>,
+                <&bt BT_SEL MACRO_PLACEHOLDER>,
+                <&bt BT_CLR>;
+        };
+    };
+
+    behaviors {
+        bt_profile: bt_profile {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <3000>;
+            bindings = <&bt_clear_profile>, <&bt_select_profile>;
+            hold-trigger-key-positions = <
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+                0xffffffff 0xffffffff 0xffffffff 0xffffffff
+            >;
+            runtime-editable;
+            runtime-default-active;
+            display-name = "Bluetooth Profile";
+        };
+
+        oled_tog: oled_toggle {
+            compatible = "zmk,behavior-oled-toggle";
+            #binding-cells = <0>;
+            display-name = "OLED Toggle";
+        };
+
+        base_view_tog: base_view_toggle {
+            compatible = "zmk,behavior-base-view-toggle";
+            #binding-cells = <0>;
+            display-name = "BASE View Cycle";
+        };
+
+        timeout_cycle: timeout_cycle {
+            compatible = "zmk,behavior-timeout-cycle";
+            #binding-cells = <1>;
+            display-name = "Timeout Cycle";
+        };
+    };
+};
+
+/ {
+    behaviors {
+        universal_switch: universal_switch {
+            compatible = "zmk,behavior-universal-dongle-switch";
+            #binding-cells = <1>;
+            display-name = "Switch Keyboard Profile";
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        switch_to_chocofi {
+            timeout-ms = <50>;
+            key-positions = <1 10>;
+            layers = <0 1 2 3 4 5 6 7 8 9 10 11 12 13>;
+            bindings = <&universal_switch 2>;
+        };
+
+        switch_to_hana {
+            timeout-ms = <50>;
+            key-positions = <1 10>;
+            layers = <0 1 2 3 4 5 6 7 8 9 10 11 12 13>;
+            bindings = <&universal_switch 1>;
+        };
+
+        combo_studio_unlock_chocofi {
+            timeout-ms = <50>;
+            key-positions = <39 44>;
+            layers = <5 6 7 12 13 14 15>;
+            bindings = <&studio_unlock>;
+        };
+    };
+};
+
+&bt_profile_shared {
+    hold-trigger-key-positions = <
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+        0xffffffff 0xffffffff 0xffffffff 0xffffffff
+    >;
+};
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        // Shared layers follow the two profile-specific bases; keep IDs stable for routing.
+        base_layer {
+            display-name = "Base_H";
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            bindings = <
+                &lt SET TAB  &kp Q              &kp W      &kp E      &kp R      &kp T                         &kp Y      &kp U      &kp I      &kp O      &kp P              &kp BSPC
+                &mt LSHIFT GRAVE    &mt LSHIFT A       &kp S      &kp D      &kp F      &kp G                         &kp H      &kp J      &kp K      &kp L      &mt RSHIFT SEMI    &mt RSHIFT SQT
+                &mt LCTRL ESC       &kp Z              &kp X      &kp C      &kp V      &kp B      &kp C_MUTE  &kp C_PP &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH           &mt RCTRL DEL
+                                      &mt LCTRL CAPS     &mt LALT BSPC        &mt LGUI RET &lt NUM SPACE                   &lt NAV RET &mt LGUI SPACE &mt LALT DEL &studio_unlock
+            >;
+        };
+
+        chocofi_base_layer {
+            display-name = "Base_C";
+            bindings = <
+                &none     &kp Q    &kp W    &kp E    &kp R    &kp T    &kp Y    &kp U    &kp I    &kp O    &kp P    &none
+                &none     &mt LSHIFT A    &mt LALT S    &mt LGUI D    &mt LCTRL F    &kp G    &kp H    &mt RCTRL J    &mt RGUI K    &mt LEFT_ALT L    &mt RSHIFT SEMI    &none
+                &none     &kp Z    &kp X    &kp C    &kp V    &kp B    &none     &none     &kp N    &kp M    &kp COMMA    &kp DOT    &kp FSLH    &none
+                &none     &mt LALT BSPC    &mt LGUI RET    &lt NUM SPACE    &lt NAV RET    &mt LGUI SPACE    &mt LALT DEL    &none
+            >;
+        };
+
+        num_layer {
+            display-name = "NUM";
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            bindings = <
+                &kp F11   &kp F1             &kp F2    &kp F3    &kp F4    &kp F5                      &kp F6     &kp F7     &kp F8     &kp F9     &kp F10            &trans
+                &kp F12   &mt LSHIFT N1      &kp N2    &kp N3    &kp N4    &kp N5                      &kp N6     &kp N7     &kp N8     &kp N9     &mt RSHIFT N0     &trans
+                &trans    &trans             &trans     &kp BSLH  &kp LBRC  &kp RBRC  &trans    &trans &kp EQUAL  &kp MINUS  &trans     &trans     &trans             &trans
+                           &trans             &trans     &trans    &trans                              &trans      &trans      &trans     &trans
+            >;
+        };
+
+        nav_layer {
+            display-name = "NAV";
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            bindings = <
+                &trans    &trans             &trans       &trans       &trans       &trans                        &kp C_VOL_UP  &kp HOME    &kp UP       &kp END      &kp PG_UP    &kp BSPC
+                &trans    &trans             &kp EQUAL    &kp LBRC     &kp RBRC     &kp C_VOL_UP                  &kp C_VOL_DN  &kp LEFT    &kp DOWN     &kp RIGHT    &kp RSHIFT   &trans
+                &trans    &trans             &kp C_BRI_DN &kp C_BRI_UP &kp C_MUTE  &kp CAPS    &trans    &trans &kp C_MUTE   &kp EQUAL   &kp LBRC     &kp RBRC     &trans       &kp DEL
+                           &trans             &trans       &trans       &trans                                 &trans         &trans       &trans        &tog_ls
+            >;
+        };
+
+        set_layer {
+            display-name = "SET";
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            bindings = <
+                &none     &bt_profile 0 0      &bt_profile 1 1  &bt_profile 2 2  &bt_profile 3 3  &bt_profile 4 4       &bootloader  &none  &base_view_tog  &timeout_cycle 1  &timeout_cycle 0  &oled_tog
+                &none     &none               &none          &none          &none          &none                          &none        &none  &none  &none  &none  &none
+                &none     &out OUT_TOG        &none          &none          &bt BT_CLR_ALL &none        &none    &none   &none        &none  &none  &none  &none  &none
+                           &none               &none          &none          &none                                      &none        &none  &none  &none
+            >;
+        };
+
+
+        mouse_layer {
+            display-name = "MOUSE";
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
+            bindings = <
+                &trans    &trans             &trans        &trans        &trans        &trans                         &msc SCRL_LEFT  &msc SCRL_UP    &mmv MOVE_UP    &msc SCRL_DOWN  &msc SCRL_RIGHT  &trans
+                &trans    &mkp LCLK          &mkp MCLK     &mkp RCLK     &trans        &trans                         &trans          &mmv MOVE_LEFT &mmv MOVE_DOWN  &mmv MOVE_RIGHT &trans            &trans
+                &trans    &trans             &trans        &trans        &trans        &trans       &trans    &trans  &trans          &trans          &trans          &trans          &trans            &trans
+                           &trans             &trans        &trans        &trans                                  &trans          &trans          &trans          &trans
+            >;
+        };
+
+
+
+
+
+        studio_runtime_layer_1 { status = "reserved"; };
+        studio_runtime_layer_2 { status = "reserved"; };
+        studio_runtime_layer_3 { status = "reserved"; };
+        studio_runtime_layer_4 { status = "reserved"; };
+        studio_runtime_layer_5 { status = "reserved"; };
+        studio_runtime_layer_6 { status = "reserved"; };
+        studio_runtime_layer_7 { status = "reserved"; };
+        studio_runtime_layer_8 { status = "reserved"; };
+    };
+};

@@ -1,0 +1,38 @@
+---
+# Seven-image candidate for controlled first hardware validation, not a production release.
+# Rebuild after changes to the universal-dongle integration source; artifacts are source-revision specific.
+# Rebuild requested 2026-10-22 to include OLED icon fixes from zmk commit daa24e82.
+# OLED font build fix is in zmk-dongle-display commit e1035575.
+# Rebuild requested 2026-10-22 for the keyboard icon, uppercase compact identity flash, six-character layer boxes, and dedicated battery glyph fixes.
+# Correct status icon target: resize KB1/KB2 connection glyph and use Hana-style percentage-filled battery icons; board switch banner is uppercase text only.
+# Final pass after restoring the original 12x8 timeout feedback glyphs; only KB1/KB2 connection glyph is resized.
+# Includes the Q+P inactive-profile switch detector from the pinned universal-routing firmware branch.
+# Includes settings_reset builds for both MCU families; reset each controller before flashing its normal image.
+include:
+  - board: nice_nano//zmk
+    shield: universal_dongle_128x64 dongle_display
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_UNIVERSAL_DONGLE_CENTRAL_IDENTITY=y -DCONFIG_ZMK_BEHAVIOR_UNIVERSAL_DONGLE_SWITCH=y -DCONFIG_ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS=4 -DCONFIG_BT_MAX_CONN=7 -DCONFIG_BT_MAX_PAIRED=7
+    artifact-name: universal_dongle_128x64
+  - board: xiao_ble//zmk
+    shield: hana_peripheral_left
+    cmake-args: -DCONFIG_ZMK_UNIVERSAL_DONGLE_PERIPHERAL_IDENTITY=y -DCONFIG_ZMK_UNIVERSAL_DONGLE_BOARD_ID=1 -DCONFIG_ZMK_UNIVERSAL_DONGLE_SIDE_ID=1
+    artifact-name: hana_left_identity
+  - board: xiao_ble//zmk
+    shield: hana_peripheral_right
+    cmake-args: -DCONFIG_ZMK_UNIVERSAL_DONGLE_PERIPHERAL_IDENTITY=y -DCONFIG_ZMK_UNIVERSAL_DONGLE_BOARD_ID=1 -DCONFIG_ZMK_UNIVERSAL_DONGLE_SIDE_ID=2
+    artifact-name: hana_right_identity
+  - board: nice_nano//zmk
+    shield: chocofi_peripheral_left
+    cmake-args: -DCONFIG_ZMK_UNIVERSAL_DONGLE_PERIPHERAL_IDENTITY=y -DCONFIG_ZMK_UNIVERSAL_DONGLE_BOARD_ID=2 -DCONFIG_ZMK_UNIVERSAL_DONGLE_SIDE_ID=1
+    artifact-name: chocofi_left_identity
+  - board: nice_nano//zmk
+    shield: chocofi_peripheral_right
+    cmake-args: -DCONFIG_ZMK_UNIVERSAL_DONGLE_PERIPHERAL_IDENTITY=y -DCONFIG_ZMK_UNIVERSAL_DONGLE_BOARD_ID=2 -DCONFIG_ZMK_UNIVERSAL_DONGLE_SIDE_ID=2
+    artifact-name: chocofi_right_identity
+  - board: nice_nano//zmk
+    shield: settings_reset
+    artifact-name: settings_reset_nice_nano
+  - board: xiao_ble//zmk
+    shield: settings_reset
+    artifact-name: settings_reset_xiao_ble

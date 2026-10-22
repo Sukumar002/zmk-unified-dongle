@@ -1,0 +1,5 @@
+description: Toggle the ZMK display manual power state
+
+compatible: "zmk,behavior-oled-toggle"
+
+include: zero_param.yaml

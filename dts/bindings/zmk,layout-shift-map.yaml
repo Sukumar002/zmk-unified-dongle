@@ -1,0 +1,9 @@
+description: Layout shift keycode mapping table
+compatible: "zmk,layout-shift-map"
+properties:
+  mappings:
+    type: array
+    required: true
+  priority:
+    type: int
+    default: 0

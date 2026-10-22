@@ -1,0 +1,5 @@
+description: Cycle Hana runtime timeout selections
+
+compatible: "zmk,behavior-timeout-cycle"
+
+include: one_param.yaml

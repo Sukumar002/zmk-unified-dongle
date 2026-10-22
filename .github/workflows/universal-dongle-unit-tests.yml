@@ -1,0 +1,38 @@
+name: Universal Dongle Unit Tests
+
+on:
+  push:
+    branches:
+      - project/universal-dongle-isolated
+    paths:
+      - ".github/workflows/universal-dongle-unit-tests.yml"
+      - "config/west.yml"
+      - "build-universal-dongle-project.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  router-onboarding-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out isolated keyboard project
+        uses: actions/checkout@v4
+
+      - name: Check out universal dongle implementation
+        uses: actions/checkout@v4
+        with:
+          repository: Sukumar002/zmk
+          ref: project/universal-dongle-routing
+          path: zmk-source
+
+      - name: Compile and run host-side routing and onboarding tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror \
+            -Izmk-source/app/include \
+            zmk-source/app/src/universal_dongle/router.c \
+            zmk-source/app/src/universal_dongle/onboarding.c \
+            zmk-source/tests/universal_dongle/onboarding_test.c \
+            -o /tmp/universal-dongle-tests
+          /tmp/universal-dongle-tests
