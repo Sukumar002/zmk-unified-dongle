@@ -3,7 +3,7 @@ name: Universal Dongle Unit Tests
 on:
   push:
     branches:
-      - project/universal-dongle-isolated
+      - main
     paths:
       - ".github/workflows/universal-dongle-unit-tests.yml"
       - "config/west.yml"

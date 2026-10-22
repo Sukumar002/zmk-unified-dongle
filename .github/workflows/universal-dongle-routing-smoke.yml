@@ -3,7 +3,7 @@ name: "Universal Dongle Five-Firmware + Two-Reset Hardware-Test Candidate Build"
 on:
   push:
     branches:
-      - project/universal-dongle-isolated
+      - main
     paths:
       - "build-universal-dongle-routing-smoke.yaml"
       - ".github/workflows/universal-dongle-routing-smoke.yml"

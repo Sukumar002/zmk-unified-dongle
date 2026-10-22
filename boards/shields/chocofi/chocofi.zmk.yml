@@ -1,0 +1,17 @@
+file_format: "1"
+id: chocofi
+name: Chocofi
+type: shield
+requires: [pro_micro]
+exposes: [i2c_oled]
+features:
+  - keys
+  - display
+  - studio
+siblings:
+  - chocofi_central_left
+  - chocofi_peripheral_left
+  - chocofi_peripheral_right
+  - chocofi_central_dongle
+  - chocofi_central_dongle_128x32
+  - chocofi_central_dongle_128x64

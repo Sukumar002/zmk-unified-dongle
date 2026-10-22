@@ -1,0 +1,14 @@
+/*
+ * Shared helper for ZMK Studio runtime-addable layer capacity.
+ *
+ * ZMK Studio can only add layers into layer slots that exist at compile time.
+ * These reserved nodes are included in ZMK_KEYMAP_LAYERS_LEN when
+ * CONFIG_ZMK_KEYMAP_LAYER_REORDERING=y (selected by Studio RPC), while staying
+ * out of the initial active layer order until a user adds them from Studio.
+ */
+
+#define ZMK_STUDIO_RUNTIME_LAYER_SLOTS_4 \
+    studio_runtime_layer_1 { status = "reserved"; }; \
+    studio_runtime_layer_2 { status = "reserved"; }; \
+    studio_runtime_layer_3 { status = "reserved"; }; \
+    studio_runtime_layer_4 { status = "reserved"; };

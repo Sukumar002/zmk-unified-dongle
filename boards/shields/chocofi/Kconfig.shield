@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+
+config SHIELD_CHOCOFI_CENTRAL_DONGLE
+    def_bool $(shields_list_contains,chocofi_central_dongle)
+config SHIELD_CHOCOFI_CENTRAL_DONGLE_128X64
+    def_bool $(shields_list_contains,chocofi_central_dongle_128x64)
+config SHIELD_CHOCOFI_CENTRAL_DONGLE_128X32
+    def_bool $(shields_list_contains,chocofi_central_dongle_128x32)
+config SHIELD_CHOCOFI_CENTRAL_LEFT
+    def_bool $(shields_list_contains,chocofi_central_left)
+config SHIELD_CHOCOFI_PERIPHERAL_LEFT
+    def_bool $(shields_list_contains,chocofi_peripheral_left)
+config SHIELD_CHOCOFI_PERIPHERAL_RIGHT
+    def_bool $(shields_list_contains,chocofi_peripheral_right)

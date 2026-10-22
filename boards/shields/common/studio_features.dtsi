@@ -1,0 +1,77 @@
+/*
+ * Shared Hana-derived Studio/runtime feature layer.
+ * Board-specific keymaps remain independent; this only exposes common behaviors.
+ */
+#include <layout_shift_kp_override.dtsi>
+#include <dt-bindings/zmk/layout_shift.h>
+
+/ {
+    layout_shift_map_gui_alt_shared: layout_shift_map_gui_alt_shared {
+        compatible = "zmk,layout-shift-map";
+        mappings = <
+            LGUI LALT LAYOUT_SHIFT_OPTIONAL_ALL
+            LALT LGUI LAYOUT_SHIFT_OPTIONAL_ALL
+            RGUI RALT LAYOUT_SHIFT_OPTIONAL_ALL
+            RALT RGUI LAYOUT_SHIFT_OPTIONAL_ALL
+        >;
+    };
+
+    macros {
+        bt_select_profile_shared: bt_select_profile_shared {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+
+        bt_clear_profile_shared: bt_clear_profile_shared {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            wait-ms = <20>;
+            bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>, <&bt BT_CLR>;
+        };
+    };
+
+    behaviors {
+        bt_profile_shared: bt_profile_shared {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <3000>;
+            bindings = <&bt_clear_profile_shared>, <&bt_select_profile_shared>;
+            runtime-editable;
+            runtime-default-active;
+            display-name = "Bluetooth Profile";
+        };
+
+        oled_tog_shared: oled_toggle_shared {
+            compatible = "zmk,behavior-oled-toggle";
+            #binding-cells = <0>;
+            display-name = "OLED Toggle";
+        };
+
+        timeout_cycle_shared: timeout_cycle_shared {
+            compatible = "zmk,behavior-timeout-cycle";
+            #binding-cells = <1>;
+            display-name = "Timeout Cycle";
+        };
+    };
+};
+
+&tog_ls {
+    layout-maps = <&layout_shift_map_gui_alt_shared>;
+};
+
+&mt {
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+    runtime-editable;
+    runtime-default-active;
+    display-name = "Mod-Tap";
+};
+
+&lt {
+    runtime-editable;
+    runtime-default-active;
+    display-name = "Layer-Tap";
+};

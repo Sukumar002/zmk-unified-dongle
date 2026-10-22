@@ -3,7 +3,7 @@ name: Universal Dongle Configuration Audit
 on:
   push:
     branches:
-      - project/universal-dongle-isolated
+      - main
     paths:
       - "build-universal-dongle-routing-smoke.yaml"
       - "boards/shields/universal_dongle/**"
