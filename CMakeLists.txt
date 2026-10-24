@@ -11,6 +11,7 @@ endif()
 # Manual OLED on/off behavior. Compiles as a harmless no-op on non-display builds.
 target_sources(app PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/src/behavior_oled_toggle.c
+  ${CMAKE_CURRENT_LIST_DIR}/src/behavior_oled_brightness.c
 )
 
 # Runtime OLED and split-half sleep timeout controls.

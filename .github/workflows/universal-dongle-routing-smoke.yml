@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - connectivity-ui-elements-enhancements
     paths:
       - "build-universal-dongle-routing-smoke.yaml"
       - ".github/workflows/universal-dongle-routing-smoke.yml"

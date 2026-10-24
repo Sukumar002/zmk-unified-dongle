@@ -56,7 +56,7 @@ check("keymap has Hana profile layer", 'display-name = "Base_H"' in keymap)
 check("keymap has Chocofi profile layer", 'display-name = "Base_C"' in keymap)
 check("Hana-to-Chocofi Q+P fallback combo uses Q/P positions", "key-positions = <1 10>;" in keymap and "bindings = <&universal_switch 2>;" in keymap)
 check("Chocofi-to-Hana Q+P fallback combo uses Q/P positions", "key-positions = <1 10>;" in keymap and "bindings = <&universal_switch 1>;" in keymap)
-check("west manifest tracks the isolated OLED implementation branch", "revision: project/universal-dongle-oled-status" in west)
+check("west manifest pins the validated ZMK implementation commit", "revision: 286e886983c074a91778d9eb3740bbae51bae9b4" in west)
 
 match = re.search(r"static const uint8_t chocofi_to_universal\[UD_CHOCOFI_POSITION_COUNT\]\s*=\s*\{(.*?)\};", router, re.S)
 values = [int(v) for v in re.findall(r"\d+", match.group(1))] if match else []
@@ -70,7 +70,10 @@ check("central requests BLE encryption", "bt_conn_set_security(conn, BT_SECURITY
 check("identity reads wait for encrypted link", "bt_conn_get_security(conn) < BT_SECURITY_L2" in central and "split_central_start_identity_read" in central)
 check("OLED keyboard name uses 2.5-second visibility", "UD_OLED_NAME_MS 2500" in oled)
 check("OLED keyboard indicator includes active keyboard identity", "keyboard_icon_buffer" in oled and "active_board_id" in oled)
-check("OLED renders two active-board battery rows", "battery_rows[2]" in oled and "battery_levels[board][1], battery_levels[board][2]" in oled and "i < 2" in oled)
+check("OLED renders two active-board battery rows", "battery_rows[2]" in oled and "levels[0] = battery_levels[board][1]" in oled and "levels[1] = battery_levels[board][2]" in oled and "i < 2" in oled)
+check("OLED battery readings clear when no keyboard pair is connected", "int levels[2] = {UD_OLED_UNKNOWN, UD_OLED_UNKNOWN};" in oled and "if (pair_connected)" in oled)
+check("OLED uses a dash for unavailable battery percentages", 'snprintk(text, sizeof(text), "-");' in oled)
+check("OLED brightness behavior is Studio-available without physical key bindings", 'compatible = "zmk,behavior-oled-brightness";' in keymap and 'display-name = "OLED Brightness";' in keymap and "&oled_brightness" not in keymap)
 check("battery updates are routed by validated board and side identity", "zmk_universal_oled_status_set_battery(slot->identity[1], slot->identity[2], battery_level)" in central)
 
 check("identity read is resumed on security change", "Failed to start universal peripheral identity read after encryption" in central)
@@ -80,7 +83,7 @@ check("disconnect synthesizes releases and drains them through the worker", "slo
 check("switch waits for complete target pair", "ud_connected_count(&universal_router, target) != 2" in central and "ud_finish_switch(&universal_router)" in central)
 
 print("Universal Dongle configuration/source audit")
-print(f"Integration source branch: {west.split('revision: project/universal-dongle-routing', 1)[0].count('projects:') and 'project/universal-dongle-routing'}")
+print("ZMK implementation commit: 286e886983c074a91778d9eb3740bbae51bae9b4")
 print(f"Chocofi position map: {len(values)} entries, {len(set(values))} unique")
 failed = 0
 for name, ok, detail in checks:

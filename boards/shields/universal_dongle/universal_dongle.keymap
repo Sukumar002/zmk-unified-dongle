@@ -130,6 +130,12 @@
             #binding-cells = <1>;
             display-name = "Timeout Cycle";
         };
+
+        oled_brightness: oled_brightness {
+            compatible = "zmk,behavior-oled-brightness";
+            #binding-cells = <1>;
+            display-name = "OLED Brightness";
+        };
     };
 };
 

@@ -11,7 +11,7 @@ manifest:
   projects:
     - name: zmk
       remote: sukumar
-      revision: project/universal-dongle-oled-status
+      revision: 286e886983c074a91778d9eb3740bbae51bae9b4
       import: app/west.yml
 
     - name: zmk-dongle-display
