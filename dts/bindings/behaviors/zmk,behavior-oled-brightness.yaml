@@ -1,0 +1,5 @@
+description: Adjust OLED brightness in bounded steps
+
+compatible: "zmk,behavior-oled-brightness"
+
+include: one_param.yaml
