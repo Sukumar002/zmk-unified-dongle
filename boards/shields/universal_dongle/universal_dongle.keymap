@@ -228,7 +228,8 @@
             display-name = "NAV";
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
             bindings = <
-                &trans    &trans             &trans       &trans       &trans       &trans                        &kp C_VOL_UP  &kp HOME    &kp UP       &kp END      &kp PG_UP    &kp BSPC
+                // W dims the OLED; E raises its brightness.
+                &trans    &trans             &oled_brightness 0  &oled_brightness 1  &trans  &trans                        &kp C_VOL_UP  &kp HOME    &kp UP       &kp END      &kp PG_UP    &kp BSPC
                 &trans    &trans             &kp EQUAL    &kp LBRC     &kp RBRC     &kp C_VOL_UP                  &kp C_VOL_DN  &kp LEFT    &kp DOWN     &kp RIGHT    &kp RSHIFT   &trans
                 &trans    &trans             &kp C_BRI_DN &kp C_BRI_UP &kp C_MUTE  &kp CAPS    &trans    &trans &kp C_MUTE   &kp EQUAL   &kp LBRC     &kp RBRC     &trans       &kp DEL
                            &trans             &trans       &trans       &trans                                 &trans         &trans       &trans        &tog_ls
@@ -240,8 +241,7 @@
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
             bindings = <
                 &none     &bt_profile 0 0      &bt_profile 1 1  &bt_profile 2 2  &bt_profile 3 3  &bt_profile 4 4       &bootloader  &none  &base_view_tog  &timeout_cycle 1  &timeout_cycle 0  &oled_tog
-                // K dims the OLED; L raises its brightness.
-                &none     &none               &none          &none          &none          &none                          &none        &none  &oled_brightness 0  &oled_brightness 1  &none  &none
+                &none     &none               &none          &none          &none          &none                          &none        &none  &none  &none  &none  &none
                 &none     &out OUT_TOG        &none          &none          &bt BT_CLR_ALL &none        &none    &none   &none        &none  &none  &none  &none  &none
                            &none               &none          &none          &none                                      &none        &none  &none  &none
             >;
