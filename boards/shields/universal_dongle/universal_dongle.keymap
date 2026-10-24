@@ -228,8 +228,7 @@
             display-name = "NAV";
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
             bindings = <
-                // W dims the OLED; E raises its brightness.
-                &trans    &trans             &oled_brightness 0  &oled_brightness 1  &trans  &trans                        &kp C_VOL_UP  &kp HOME    &kp UP       &kp END      &kp PG_UP    &kp BSPC
+                &trans    &trans             &trans       &trans       &trans       &trans                        &kp C_VOL_UP  &kp HOME    &kp UP       &kp END      &kp PG_UP    &kp BSPC
                 &trans    &trans             &kp EQUAL    &kp LBRC     &kp RBRC     &kp C_VOL_UP                  &kp C_VOL_DN  &kp LEFT    &kp DOWN     &kp RIGHT    &kp RSHIFT   &trans
                 &trans    &trans             &kp C_BRI_DN &kp C_BRI_UP &kp C_MUTE  &kp CAPS    &trans    &trans &kp C_MUTE   &kp EQUAL   &kp LBRC     &kp RBRC     &trans       &kp DEL
                            &trans             &trans       &trans       &trans                                 &trans         &trans       &trans        &tog_ls
