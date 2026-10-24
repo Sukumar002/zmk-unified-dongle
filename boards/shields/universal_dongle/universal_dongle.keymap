@@ -130,6 +130,12 @@
             #binding-cells = <1>;
             display-name = "Timeout Cycle";
         };
+
+        oled_brightness: oled_brightness {
+            compatible = "zmk,behavior-oled-brightness";
+            #binding-cells = <1>;
+            display-name = "OLED Brightness";
+        };
     };
 };
 
@@ -234,7 +240,8 @@
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
             bindings = <
                 &none     &bt_profile 0 0      &bt_profile 1 1  &bt_profile 2 2  &bt_profile 3 3  &bt_profile 4 4       &bootloader  &none  &base_view_tog  &timeout_cycle 1  &timeout_cycle 0  &oled_tog
-                &none     &none               &none          &none          &none          &none                          &none        &none  &none  &none  &none  &none
+                // K dims the OLED; L raises its brightness.
+                &none     &none               &none          &none          &none          &none                          &none        &none  &oled_brightness 0  &oled_brightness 1  &none  &none
                 &none     &out OUT_TOG        &none          &none          &bt BT_CLR_ALL &none        &none    &none   &none        &none  &none  &none  &none  &none
                            &none               &none          &none          &none                                      &none        &none  &none  &none
             >;
