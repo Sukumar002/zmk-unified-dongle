@@ -33,7 +33,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Fetch integration source branch
-        run: git clone --depth 1 --branch connectivity-ui-elements-enhancements https://github.com/Sukumar002/zmk.git zmk-source
+      - name: Fetch pinned ZMK integration source
+        run: |
+          git init zmk-source
+          git -C zmk-source remote add origin https://github.com/Sukumar002/zmk.git
+          git -C zmk-source fetch --depth 1 origin 286e886983c074a91778d9eb3740bbae51bae9b4
+          git -C zmk-source checkout --detach FETCH_HEAD
       - name: Run configuration and source audit
         run: python scripts/validate_universal_dongle_config.py
