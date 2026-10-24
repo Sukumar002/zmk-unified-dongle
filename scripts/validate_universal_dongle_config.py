@@ -56,7 +56,7 @@ check("keymap has Hana profile layer", 'display-name = "Base_H"' in keymap)
 check("keymap has Chocofi profile layer", 'display-name = "Base_C"' in keymap)
 check("Hana-to-Chocofi Q+P fallback combo uses Q/P positions", "key-positions = <1 10>;" in keymap and "bindings = <&universal_switch 2>;" in keymap)
 check("Chocofi-to-Hana Q+P fallback combo uses Q/P positions", "key-positions = <1 10>;" in keymap and "bindings = <&universal_switch 1>;" in keymap)
-check("west manifest tracks the connectivity UI implementation branch", "revision: connectivity-ui-elements-enhancements" in west)
+check("west manifest pins the validated ZMK implementation commit", "revision: 286e886983c074a91778d9eb3740bbae51bae9b4" in west)
 
 match = re.search(r"static const uint8_t chocofi_to_universal\[UD_CHOCOFI_POSITION_COUNT\]\s*=\s*\{(.*?)\};", router, re.S)
 values = [int(v) for v in re.findall(r"\d+", match.group(1))] if match else []
@@ -83,7 +83,7 @@ check("disconnect synthesizes releases and drains them through the worker", "slo
 check("switch waits for complete target pair", "ud_connected_count(&universal_router, target) != 2" in central and "ud_finish_switch(&universal_router)" in central)
 
 print("Universal Dongle configuration/source audit")
-print("ZMK implementation branch: connectivity-ui-elements-enhancements")
+print("ZMK implementation commit: 286e886983c074a91778d9eb3740bbae51bae9b4")
 print(f"Chocofi position map: {len(values)} entries, {len(set(values))} unique")
 failed = 0
 for name, ok, detail in checks:
